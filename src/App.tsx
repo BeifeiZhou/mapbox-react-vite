@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
-import './App.css'
+// import './App.css'
+import './App.less'
+import { MapDisplay } from './MapDisplay.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
-  console.log(import.meta.env.VITE_MAPBOX_API_KEY)
 
   return (
-    <div className="App">
-      <div>
+    <div className="app">
+      <MapDisplay className="map-container"/>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
         </a>
@@ -27,7 +29,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
+      </p> */}
     </div>
   )
 }
