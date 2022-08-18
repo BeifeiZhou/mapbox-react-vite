@@ -58,7 +58,7 @@ export const MapDisplay = () => {
             mapStyle="mapbox://styles/mapbox/streets-v11"
             mapboxAccessToken={mapboxgl.accessToken}
         >
-            <GeocoderControl mapboxAccessToken={mapboxgl.accessToken} position="top-left" />
+            <GeocoderControl mapboxAccessToken={mapboxgl.accessToken} position="top-right" />
             <GeolocateControl position="top-left" />
             <FullscreenControl position="top-left" />
             <NavigationControl position="top-left" />
