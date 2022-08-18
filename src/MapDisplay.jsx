@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-// import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "./mapbox-gl-geocoder.css";
 import './MapDisplay.less'
 import Map, {
     Marker,
@@ -14,6 +14,7 @@ import Map, {
 import Pin from './pin';
 import CITIES from './data/cities.json';
 import ControlPanel from './ControlPanel';
+import GeocoderControl from './geocoder-control';
 
 export const MapDisplay = () => {
     const [popupInfo, setPopupInfo] = useState(null);
@@ -57,9 +58,10 @@ export const MapDisplay = () => {
             mapStyle="mapbox://styles/mapbox/streets-v11"
             mapboxAccessToken={mapboxgl.accessToken}
         >
+            <GeocoderControl mapboxAccessToken={mapboxgl.accessToken} position="top-left" />
             <GeolocateControl position="top-left" />
-            {/* <FullscreenControl position="top-left" /> */}
-            {/* <NavigationControl position="top-left" /> */}
+            <FullscreenControl position="top-left" />
+            <NavigationControl position="top-left" />
             <ScaleControl />
             {pins}
             {popupInfo && (
