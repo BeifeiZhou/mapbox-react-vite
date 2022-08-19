@@ -6,8 +6,10 @@ import { runScript } from './utils'
 
 
 export const MapDisplay = () => {
+    const [bbox, setBbox] = useState([])
+    const [imgSize, setImgSize] = useState([])
     useEffect(() => {
-        runScript()
+        runScript(setBbox, setImgSize)
     })
 
     return <div className='screen' id='map'>

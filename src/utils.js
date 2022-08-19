@@ -3,8 +3,25 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-export const runScript = () => {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoib290dGkiLCJhIjoiY2t1Y2xzNWw5MTIwcDJvbW9zZTBzODR6MCJ9.1Pan5u_dy7IM9otS-_bD2g';
+
+const measure = (lat1, lon1, lat2, lon2) => {
+    // generally used geo measurement function
+    var R = 6378.137; // Radius of earth in KM
+    var dLat = (lat2 * Math.PI) / 180 - (lat1 * Math.PI) / 180;
+    var dLon = (lon2 * Math.PI) / 180 - (lon1 * Math.PI) / 180;
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d * 1000; // meters
+}
+
+export const runScript = (setBbox, setImgSize) => {
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
@@ -34,4 +51,22 @@ export const runScript = () => {
         .setPopup(popup)
         .addTo(map);
 
+    map.on('moveend', () => {
+        let bound = map.getBounds();
+        let top = bound._ne.lat;
+        let bottom = bound._sw.lat;
+        let left = bound._sw.lng;
+        let right = bound._ne.lng;
+
+        let imgWidth = document.querySelector(".screen").clientWidth;
+        let imgHeight = document.querySelector(".screen").clientHeight;
+
+        imgHeight = Math.round(measure(top, 1, bottom, 1));
+        imgWidth = Math.round(measure(1, left, 1, right));
+        console.log([left, bottom, right, top])
+        console.log(imgHeight, imgWidth)
+        setBbox([left, bottom, right, top]);
+        setImgSize([imgWidth, imgHeight]);
+        // console.log('bbox, imgSize', bbox, imgSize);
+    })
 }
