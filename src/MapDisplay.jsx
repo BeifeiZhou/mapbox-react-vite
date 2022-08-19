@@ -13,7 +13,6 @@ import MapGL, {
 } from 'react-map-gl';
 import Pin from './pin';
 import CITIES from './data/cities.json';
-import ControlPanel from './ControlPanel';
 import GeocoderControl from './geocoder-control';
 
 export const MapDisplay = () => {
@@ -95,7 +94,6 @@ export const MapDisplay = () => {
                 bearing: 0,
                 pitch: 0
             }}
-            // onViewportChange={handleGeocoderViewportChange}
             ref={mapRef}
             mapStyle="mapbox://styles/mapbox/streets-v11"
             mapboxAccessToken={mapboxgl.accessToken}
