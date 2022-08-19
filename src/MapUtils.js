@@ -133,77 +133,45 @@ export const runScript = (addLayer, setBbox, setImgSize) => {
             }
         });
         map.addLayer({
-            'id': 'park-boundary',
+            'id': 'layer-0',
             'type': 'fill',
             'source': 'national-park',
             'paint': {
                 'fill-color': '#888888',
                 'fill-opacity': 0.4
             },
-            'filter': ['==', '$type', 'Polygon']
+            'filter': ['==', '$type', 'Polygon'],
+            "layout": {
+                "visibility": "none"
+            },
         });
 
         map.addLayer({
-            'id': 'park-volcanoes',
+            'id': 'layer-1',
             'type': 'circle',
             'source': 'national-park',
             'paint': {
                 'circle-radius': 6,
                 'circle-color': '#B42222'
             },
-            'filter': ['==', '$type', 'Point']
+            'filter': ['==', '$type', 'Point'],
+            "layout": {
+                "visibility": "none"
+            },
         });
     });
 
-    map.on('idle', () => {
-        if (!map.getLayer('park-boundary') || !map.getLayer('park-volcanoes')) {
-            return;
-        }
-
-        const toggleableLayerIds = ['park-boundary', 'park-volcanoes'];
-        for (const id of toggleableLayerIds) {
-            // Skip layers that already have a button set up.
-            if (document.getElementById(id)) {
-                continue;
+    const layers = ['layer-0', 'layer-1'];
+    layers.forEach(layerId => {
+        document.getElementById(layerId).addEventListener('click', (e) => {
+            console.log(e.target.id)
+            const visibility = map.getLayoutProperty(layerId, 'visibility');
+            console.log(visibility)
+            if (visibility === 'visible') {
+                map.setLayoutProperty(layerId, 'visibility', 'none');
+            } else {
+                map.setLayoutProperty(layerId, 'visibility', 'visible');
             }
-
-            // Create a link.
-            const link = document.createElement('div');
-            link.id = id;
-            link.href = '#';
-            link.textContent = id;
-            link.className = 'active';
-
-            // Show or hide layer when the toggle is clicked.
-            link.onclick = function (e) {
-                const clickedLayer = this.textContent;
-                e.preventDefault();
-                e.stopPropagation();
-
-                const visibility = map.getLayoutProperty(
-                    clickedLayer, 'visibility') || 'visible';
-
-                // Toggle layer visibility by changing the layout object's visibility property.
-                console.log('visibility', visibility)
-                if (visibility === 'visible') {
-                    console.log('hide')
-                    console.log(clickedLayer)
-                    map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-                    this.className = '';
-                } else {
-                    console.log('show')
-                    console.log(clickedLayer)
-                    this.className = 'active';
-                    map.setLayoutProperty(
-                        clickedLayer,
-                        'visibility',
-                        'visible'
-                    );
-                }
-            };
-
-            const layers = document.querySelector('.buttons');
-            layers.appendChild(link);
-        }
+        })
     })
 }
