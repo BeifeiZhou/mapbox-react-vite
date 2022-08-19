@@ -17,7 +17,7 @@ import GeocoderControl from './geocoder-control';
 
 export const MapDisplay = () => {
     const [popupInfo, setPopupInfo] = useState(null);
-    const mapRef = useRef();
+    const mapRef = useRef(null);
     const [bbox, setBbox] = useState([]);
     const [imgSize, setImgSize] = useState([]);
 
