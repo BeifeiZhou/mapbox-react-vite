@@ -4,12 +4,12 @@ import './MapPage.less'
 import { runScript } from './MapUtils'
 
 
-
 export const MapPage = () => {
     const [bbox, setBbox] = useState([])
     const [imgSize, setImgSize] = useState([])
+    const [addLayer, setAddLayer] = useState(true)
     useEffect(() => {
-        runScript(setBbox, setImgSize)
+        runScript(addLayer, setBbox, setImgSize)
     }, [])
 
     useEffect(() => {
@@ -17,9 +17,9 @@ export const MapPage = () => {
     }, [bbox, imgSize])
 
     return <div className='screen'>
-        <div id='map'/>
-        {/* <div className='top-map'>
-            <div className='sidebar'>9</div>
-        </div> */}
+        <div id='map' />
+        <div className='top-map'>
+            <div className='buttons'></div>
+        </div>
     </div>
 }
