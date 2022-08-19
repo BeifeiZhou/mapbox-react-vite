@@ -25,8 +25,8 @@ export const runScript = (setBbox, setImgSize) => {
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-79.4512, 43.6568],
-        zoom: 13
+        center: [-120, 40],
+        zoom: 7
     });
 
     // Add the control to the map.
@@ -47,7 +47,7 @@ export const runScript = (setBbox, setImgSize) => {
     );
 
     const marker = new mapboxgl.Marker()
-        .setLngLat([-79.4512, 43.6568])
+        .setLngLat([-120, 40])
         .setPopup(popup)
         .addTo(map);
 
@@ -58,15 +58,13 @@ export const runScript = (setBbox, setImgSize) => {
         let left = bound._sw.lng;
         let right = bound._ne.lng;
 
-        let imgWidth = document.querySelector(".screen").clientWidth;
-        let imgHeight = document.querySelector(".screen").clientHeight;
+        let imgWidth = document.querySelector("#map").clientWidth;
+        let imgHeight = document.querySelector("#map").clientHeight;
 
         imgHeight = Math.round(measure(top, 1, bottom, 1));
         imgWidth = Math.round(measure(1, left, 1, right));
-        console.log([left, bottom, right, top])
-        console.log(imgHeight, imgWidth)
         setBbox([left, bottom, right, top]);
         setImgSize([imgWidth, imgHeight]);
-        // console.log('bbox, imgSize', bbox, imgSize);
+        console.log(map.getZoom())
     })
 }
