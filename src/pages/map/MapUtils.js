@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
+import './MapUtils.less'
 
 
 const measure = (lat1, lon1, lat2, lon2) => {
@@ -20,7 +21,7 @@ const measure = (lat1, lon1, lat2, lon2) => {
     return d * 1000; // meters
 }
 
-export const runScript = (addLayer, setBbox, setImgSize) => {
+export const runScript = (setShowReqForm, setBbox, setImgSize) => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
     const [lng, lat] = [-121.403732, 40.492392]
     const zoom = 10
@@ -72,6 +73,16 @@ export const runScript = (addLayer, setBbox, setImgSize) => {
         setBbox([left, bottom, right, top]);
         setImgSize([imgWidth, imgHeight]);
         console.log(map.getZoom())
+    })
+
+    const el = document.createElement('div');
+    el.className = 'custom-marker';
+
+    const customMarker = new mapboxgl.Marker({ draggable: true, element: el })
+
+    map.on('contextmenu', (e) => {
+        console.log(e.lngLat);
+        customMarker.setLngLat(e.lngLat).addTo(map);
     })
 
     map.on('load', () => {
@@ -173,5 +184,9 @@ export const runScript = (addLayer, setBbox, setImgSize) => {
                 map.setLayoutProperty(layerId, 'visibility', 'visible');
             }
         })
+    })
+
+    el.addEventListener('click', (e) => {
+        setShowReqForm(true)
     })
 }
