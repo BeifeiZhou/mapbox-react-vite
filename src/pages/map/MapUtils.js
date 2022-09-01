@@ -27,7 +27,7 @@ export const runScript = (setShowReqForm, setBbox, setImgSize) => {
     const zoom = 10
     const map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: 'mapbox://styles/mapbox/satellite-v9',
         center: [lng, lat],
         zoom: zoom
     });

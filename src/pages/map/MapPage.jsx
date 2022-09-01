@@ -24,11 +24,9 @@ export const MapPage = () => {
             <div id='top-map' className='top-map'>
                 <div id='layer-0' className='button'>Show Layer 0</div>
                 <div id='layer-1' className='button'>Show Layer 1</div>
-
             </div>
         </div>
         <Modal
-            // className='modal'
             centered={true}
             visible={showReqForm}
             zIndex={3}

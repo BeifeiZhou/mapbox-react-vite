@@ -9,6 +9,7 @@ export const Profile = () => {
     };
 
     const handleOk = () => {
+        console.log('this is my book')
         setIsModalVisible(false);
     };
 
